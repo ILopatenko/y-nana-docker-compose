@@ -3,14 +3,8 @@ const mongoose = require('mongoose');
 
 const port = process.env.SERVER_PORT || 5000;
 
-const connectionString = `mongodb://admin:superSecret@3.3.3.2:27017/`;
-const connectionString2 = `mongodb+srv://mongo-user-mern-goal-setter:passwword>@cluster-mern-goal-sette.bzla4sg.mongodb.net/?retryWrites=true&w=majority&appName=cluster-mern-goal-setter`;
-console.log({ connectionString });
+const connectionString = `mongodb://admin:superSecret@mongo-db:27017/`;
 const connectDB = async string => {
-   console.log('let us try to connect');
-   console.log('let us try to connect');
-   console.log('let us try to connect');
-   console.log('let us try to connect');
    try {
       const conn = await mongoose.connect(string);
       console.log(`MongoDB connected: ${conn.connection.host}`);
@@ -18,14 +12,10 @@ const connectDB = async string => {
       console.log(error);
       process.exit(1);
    }
-   console.log('let us try to connect');
-   console.log('let us try to connect');
-   console.log('let us try to connect');
-   console.log('let us try to connect');
 };
 
 const app = express();
-connectDB(connectionString2);
+connectDB(connectionString);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
