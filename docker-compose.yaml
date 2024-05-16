@@ -29,6 +29,16 @@ services:
       networks:
          - mongo-compose-network
 
+   backend:
+      build: ./backend
+      ports:
+         - 3000:3000
+      networks:
+         - mongo-compose-network
+      depends_on:
+         - 'mongo-ui'
+      restart: always
+
 volumes:
    mongo-db_data:
       driver: local
