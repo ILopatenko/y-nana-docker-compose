@@ -1,7 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 
-const port = process.env.SERVER_PORT || 5000;
+const port = 5000;
 
 const connectionString = `mongodb://admin:superSecret@mongo-db:27017/`;
 const connectDB = async string => {
