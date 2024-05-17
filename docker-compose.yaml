@@ -3,12 +3,12 @@ services:
    mongo-db:
       image: mongo
       ports:
-         - 27017:27017
+         - ${MONGO_DB_PORT}:${MONGO_DB_PORT}
       env_file:
          - .env
       environment:
-         MONGO_INITDB_ROOT_USERNAME: MONGO_DB_USERNAME
-         MONGO_INITDB_ROOT_PASSWORD: MONGO_DB_PASSWORD
+         MONGO_INITDB_ROOT_USERNAME: ${MONGO_DB_USERNAME}
+         MONGO_INITDB_ROOT_PASSWORD: ${MONGO_DB_PASSWORD}
       volumes:
          - mongo-db_data:/data/db
       networks:
@@ -21,13 +21,13 @@ services:
       env_file:
          - .env
       environment:
-         ME_CONFIG_MONGODB_ADMINUSERNAME: MONGO_DB_USERNAME
-         ME_CONFIG_MONGODB_ADMINPASSWORD: MONGO_DB_PASSWORD
+         ME_CONFIG_MONGODB_ADMINUSERNAME: ${MONGO_DB_USERNAME}
+         ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGO_DB_PASSWORD}
          ME_CONFIG_BASICAUTH: true
          ME_CONFIG_BASICAUTH_USERNAME: test
          ME_CONFIG_BASICAUTH_PASSWORD: test
          ME_CONFIG_MONGODB_SERVER: mongo-db
-         ME_CONFIG_MONGODB_URL: mongodb://MONGO_DB_USERNAME:MONGO_DB_PASSWORD@mongo-db:27017/
+         ME_CONFIG_MONGODB_URL: mongodb://${MONGO_DB_USERNAME}:${MONGO_DB_PASSWORD}@mongo-db:27017/
       depends_on:
          - 'mongo-db'
       networks:
