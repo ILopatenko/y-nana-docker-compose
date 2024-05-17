@@ -50,7 +50,7 @@ services:
          - 'mongo-ui'
       restart: always
       environment:
-         ME_CONFIG_MONGODB_URL: ${ME_CONFIG_MONGODB_URL}
+         MONGO_URI: ${ME_CONFIG_MONGODB_URL}
 
 volumes:
    mongo-db_data:

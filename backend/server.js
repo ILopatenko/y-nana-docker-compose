@@ -3,7 +3,8 @@ const mongoose = require('mongoose');
 
 const port = 5000;
 
-const connectionString = `mongodb://admin:superSecret@mongo-db:27017/`;
+//const connectionString = `mongodb://admin:superSecret@mongo-db:27017/`;
+const connectionString = process.env.MONGO_URI;
 const connectDB = async string => {
    try {
       const conn = await mongoose.connect(string);
