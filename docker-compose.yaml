@@ -1,51 +1,56 @@
 version: '3.1'
 services:
    mongo-db:
-      image: mongo
-      ports:
-         - ${MONGO_DB_PORT}:${MONGO_DB_PORT}
       env_file:
          - .env
+      image: mongo
+      container_name: ${MONGO_DB_CONTAINER_NAME}
+      ports:
+         - ${MONGO_DB_PORT}:${MONGO_DB_PORT}
       environment:
          MONGO_INITDB_ROOT_USERNAME: ${MONGO_DB_USERNAME}
          MONGO_INITDB_ROOT_PASSWORD: ${MONGO_DB_PASSWORD}
       volumes:
          - mongo-db_data:/data/db
+      restart: always
       networks:
-         - mongo-compose-network
+         - ${STACK_NETWORK}
 
    mongo-ui:
-      image: mongo-express
-      ports:
-         - 8081:8081
       env_file:
          - .env
+      image: mongo-express
+      container_name: ${MONGO_UI_CONTAINER_NAME}
+      ports:
+         - ${MONGO_UI_PORT}:${MONGO_UI_PORT}
       environment:
          ME_CONFIG_MONGODB_ADMINUSERNAME: ${MONGO_DB_USERNAME}
          ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGO_DB_PASSWORD}
          ME_CONFIG_BASICAUTH: true
-         ME_CONFIG_BASICAUTH_USERNAME: test
-         ME_CONFIG_BASICAUTH_PASSWORD: test
-         ME_CONFIG_MONGODB_SERVER: mongo-db
-         ME_CONFIG_MONGODB_URL: mongodb://${MONGO_DB_USERNAME}:${MONGO_DB_PASSWORD}@mongo-db:27017/
+         ME_CONFIG_BASICAUTH_USERNAME: ${MONGO_UI_USERNAME}
+         ME_CONFIG_BASICAUTH_PASSWORD: ${MONGO_UI_PASSWORD}
+         ME_CONFIG_MONGODB_SERVER: ${MONGO_DB_SERVICE_NAME}
+         ME_CONFIG_MONGODB_URL: mongodb://${MONGO_DB_USERNAME}:${MONGO_DB_PASSWORD}@${MONGO_DB_SERVICE_NAME}:${MONGO_DB_PORT}/
       depends_on:
          - 'mongo-db'
+      restart: always
       networks:
-         - mongo-compose-network
+         - ${STACK_NETWORK}
 
    backend:
-      build: ./backend
-      ports:
-         - 3000:3000
       env_file:
          - .env
+      build: ./backend
+      container_name: ${BACKEND_CONTAINER_NAME}
+      ports:
+         - ${BACKEND_PORT}:${BACKEND_PORT}
       networks:
-         - mongo-compose-network
+         - ${STACK_NETWORK}
       depends_on:
          - 'mongo-ui'
       restart: always
       environment:
-         ME_CONFIG_MONGODB_URL: mongodb://admin:superSecret@mongo-db:27017/
+         ME_CONFIG_MONGODB_URL: ${ME_CONFIG_MONGODB_URL}
 
 volumes:
    mongo-db_data:
