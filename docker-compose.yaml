@@ -51,6 +51,7 @@ services:
       restart: always
       environment:
          MONGO_URI: ${ME_CONFIG_MONGODB_URL}
+         SERVER_PORT: ${BACKEND_PORT}
 
 volumes:
    mongo-db_data:

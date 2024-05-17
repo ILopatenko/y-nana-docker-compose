@@ -1,7 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 
-const port = process.env.BACKEND_PORT || 5000;
+const port = process.env.SERVER_PORT || 5000;
 
 const connectDB = async string => {
    try {
