@@ -1,10 +1,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
 
-const port = 5000;
+const port = process.env.BACKEND_PORT || 5000;
 
-//const connectionString = `mongodb://admin:superSecret@mongo-db:27017/`;
-const connectionString = process.env.MONGO_URI;
 const connectDB = async string => {
    try {
       const conn = await mongoose.connect(string);
@@ -16,6 +14,9 @@ const connectDB = async string => {
 };
 
 const app = express();
+
+//const connectionString = `mongodb://admin:superSecret@mongo-db:27017/`;
+const connectionString = process.env.MONGO_URI;
 connectDB(connectionString);
 
 app.use(express.json());
